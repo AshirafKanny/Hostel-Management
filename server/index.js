@@ -24,16 +24,16 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/users", userRoutes);
-app.use("/student", studentRoutes);
-app.use("/attendance", attendanceRoutes);
-app.use("/rooms", roomRoutes);
-app.use("/fees", feeRoutes);
-app.use("/complaints", complaintRoutes);
-app.use("/visitors", visitorRoutes);
-app.use("/notices", noticeRoutes);
-app.use("/leaves", leaveRoutes);
-app.use("/dashboard", dashboardRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/student", studentRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/rooms", roomRoutes);
+app.use("/api/fees", feeRoutes);
+app.use("/api/complaints", complaintRoutes);
+app.use("/api/visitors", visitorRoutes);
+app.use("/api/notices", noticeRoutes);
+app.use("/api/leaves", leaveRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {

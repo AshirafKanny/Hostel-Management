@@ -23,7 +23,7 @@ export const postAttendance = (attendance) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/attendance/`, attendance, config);
+    const { data } = await axios.post(`/api/attendance/`, attendance, config);
     dispatch({
       type: ATTENDANCE_DATA_ENTER_SUCCESS,
       payload: data,
@@ -51,7 +51,7 @@ export const getAnalysisByDate = (date) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `/attendance/getAnalysis`,
+      `/api/attendance/getAnalysis`,
       { date: date },
       config
     );
@@ -82,7 +82,7 @@ export const deleteAttendanceByDate = (days) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.delete(`/attendance/${days}`, config);
+    const { data } = await axios.delete(`/api/attendance/${days}`, config);
 
     dispatch({
       type: ATTENDANCE_DELETE_SUCCESS,

@@ -28,7 +28,7 @@ const FeeManagementView = () => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const endpoint = filter === "pending" ? "/fees/pending" : "/fees";
+      const endpoint = filter === "pending" ? "/api/fees/pending" : "/api/fees";
       const { data } = await axios.get(endpoint, config);
       setFees(data);
       setLoading(false);

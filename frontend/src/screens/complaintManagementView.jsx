@@ -27,7 +27,7 @@ const ComplaintManagementView = () => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.get("/complaints", config);
+      const { data } = await axios.get("/api/complaints", config);
       setComplaints(data);
       setLoading(false);
     } catch (error) {

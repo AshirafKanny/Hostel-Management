@@ -23,7 +23,7 @@ const NoticeBoardView = () => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       } : {};
-      const { data } = await axios.get("/notices", config);
+      const { data } = await axios.get("/api/notices", config);
       setNotices(data);
       setLoading(false);
     } catch (error) {
@@ -37,7 +37,7 @@ const NoticeBoardView = () => {
   return (
     <div className="notice-board">
       <div className="page-header">
-        <h1>📢 Notice Board</h1>
+        <h1>Notice Board</h1>
         {userInfo?.isAdmin && (
           <button className="btn btn-primary" onClick={() => history.push("/notices/add")}>
             + Post New Notice

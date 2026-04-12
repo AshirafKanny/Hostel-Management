@@ -6,9 +6,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "/users": { target: "http://127.0.0.1:5000", changeOrigin: true },
-      "/student": { target: "http://127.0.0.1:5000", changeOrigin: true },
-      "/attendance": { target: "http://127.0.0.1:5000", changeOrigin: true },
+      "/api": { target: "http://127.0.0.1:5000", changeOrigin: true },
     },
   },
 });

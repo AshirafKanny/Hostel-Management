@@ -11,6 +11,7 @@ const RoomManagementView = () => {
 
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!userInfo) {
@@ -22,21 +23,28 @@ const RoomManagementView = () => {
 
   const fetchRooms = async () => {
     try {
+      setError("");
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.get("/rooms", config);
+      const { data } = await axios.get("/api/rooms", config);
+      if (!Array.isArray(data)) {
+        throw new Error("Invalid rooms response from server");
+      }
       setRooms(data);
       setLoading(false);
     } catch (error) {
       console.error(error);
+      setError(error?.response?.data?.message || "Unable to load rooms right now.");
+      setRooms([]);
       setLoading(false);
     }
   };
 
   if (loading) return <div className="spinner"></div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
     <div className="room-management">

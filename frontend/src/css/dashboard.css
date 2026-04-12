@@ -76,27 +76,27 @@
 }
 
 .students-bg {
-  background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+  background: #1a73e8;
 }
 
 .rooms-bg {
-  background: linear-gradient(135deg, #1e8e3e 0%, #34a853 100%);
+  background: #1e8e3e;
 }
 
 .fees-bg {
-  background: linear-gradient(135deg, #f9ab00 0%, #fbbc04 100%);
+  background: #f9ab00;
 }
 
 .complaints-bg {
-  background: linear-gradient(135deg, #d93025 0%, #ea4335 100%);
+  background: #d93025;
 }
 
 .visitors-bg {
-  background: linear-gradient(135deg, #9334e6 0%, #a142f4 100%);
+  background: #9334e6;
 }
 
 .leaves-bg {
-  background: linear-gradient(135deg, #12b5cb 0%, #1aa260 100%);
+  background: #12b5cb;
 }
 
 .stat-details {

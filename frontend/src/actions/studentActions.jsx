@@ -36,7 +36,7 @@ export const listStudents = (keyword = "", pageNumber = "") => async (
     };
 
     const { data } = await axios.get(
-      `/student/all?keyword=${keyword}&pageNumber=${pageNumber}`,
+      `/api/student/all?keyword=${keyword}&pageNumber=${pageNumber}`,
       config
     );
     dispatch({
@@ -66,7 +66,7 @@ export const addStudent = (student) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/student/addStudent`, student, config);
+    const { data } = await axios.post(`/api/student/addStudent`, student, config);
 
     dispatch({
       type: STUDENT_ADD_SUCCESS,
@@ -95,7 +95,7 @@ export const getStudentDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/student/${id}`, config);
+    const { data } = await axios.get(`/api/student/${id}`, config);
 
     dispatch({
       type: STUDENT_DETAILS_SUCCESS,
@@ -124,7 +124,7 @@ export const updateStudent = (student) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.put(
-      `/student/${student._id}`,
+      `/api/student/${student._id}`,
       student,
       config
     );
@@ -156,7 +156,7 @@ export const deleteStudent = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/student/${id}`, config);
+    const { data } = await axios.delete(`/api/student/${id}`, config);
 
     dispatch({
       type: STUDENT_DELETE_SUCCESS,
@@ -185,7 +185,7 @@ export const getStudentsByRoomNo = (roomNo) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/student/room/${roomNo}`, config);
+    const { data } = await axios.get(`/api/student/room/${roomNo}`, config);
     dispatch({
       type: STUDENT_ROOM_NO_SUCCESS,
       payload: data,
