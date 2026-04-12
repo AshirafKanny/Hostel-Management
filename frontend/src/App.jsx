@@ -13,6 +13,11 @@ import AttendanceView from "./screens/attendanceView";
 import ProfileView from "./screens/profileView";
 import UserListView from "./screens/userListView";
 import UserEditView from "./screens/userEditView";
+import DashboardView from "./screens/dashboardView";
+import RoomManagementView from "./screens/roomManagementView";
+import FeeManagementView from "./screens/feeManagementView";
+import ComplaintManagementView from "./screens/complaintManagementView";
+import NoticeBoardView from "./screens/noticeBoardView";
 
 const App = () => {
   return (
@@ -20,6 +25,11 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
+          <Route path="/dashboard" component={DashboardView} exact />
+          <Route path="/rooms" component={RoomManagementView} exact />
+          <Route path="/fees" component={FeeManagementView} exact />
+          <Route path="/complaints" component={ComplaintManagementView} exact />
+          <Route path="/notices" component={NoticeBoardView} exact />
           <Route path="/user/:userId/edit" component={UserEditView} />
           <Route path="/userList" component={UserListView} />
           <Route path="/profile" component={ProfileView} />

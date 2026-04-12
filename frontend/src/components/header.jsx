@@ -5,6 +5,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import SearchBox from "./searchBox";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
+import "../css/header.css";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -17,50 +18,79 @@ const Header = () => {
     history.push("/login");
   };
   return (
-    <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+    <header className="modern-header">
+      <Navbar expand="lg" collapseOnSelect className="modern-navbar">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>NSD Solutions</Navbar.Brand>
+            <Navbar.Brand className="brand-logo">
+              <span className="brand-text">Hostel Management</span>
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {userInfo && (
               <Route render={({ history }) => <SearchBox history={history} />} />
             )}
-            <Nav className="ml-auto">
+            <Nav className="ms-auto align-items-center">
+              {userInfo && userInfo.isAdmin && (
+                <LinkContainer to="/dashboard">
+                  <Nav.Link className="nav-link-modern">Dashboard</Nav.Link>
+                </LinkContainer>
+              )}
               {userInfo && (
-                <NavDropdown title="More">
-                  <LinkContainer to="/attendance">
-                    <NavDropdown.Item>Attendance</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/addStudent">
-                    <NavDropdown.Item>Add Student</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/analysis">
-                    <NavDropdown.Item>View Analysis</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
+                <>
+                  <NavDropdown title="Students" className="nav-dropdown-modern">
+                    <LinkContainer to="/">
+                      <NavDropdown.Item>All Students</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/addStudent">
+                      <NavDropdown.Item>Add Student</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Divider />
+                    <LinkContainer to="/attendance">
+                      <NavDropdown.Item>Attendance</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/analysis">
+                      <NavDropdown.Item>Reports</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                  <NavDropdown title="Operations" className="nav-dropdown-modern">
+                    <LinkContainer to="/rooms">
+                      <NavDropdown.Item>Rooms</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/fees">
+                      <NavDropdown.Item>Fees</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/complaints">
+                      <NavDropdown.Item>Complaints</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/notices">
+                      <NavDropdown.Item>Notices</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                </>
               )}
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
+                <NavDropdown title={userInfo.name} id="username" className="user-dropdown">
                   <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item>My Profile</NavDropdown.Item>
                   </LinkContainer>
                   {userInfo.isAdmin && (
-                    <LinkContainer to="/userList">
-                      <NavDropdown.Item>Users List</NavDropdown.Item>
-                    </LinkContainer>
+                    <>
+                      <NavDropdown.Divider />
+                      <LinkContainer to="/userList">
+                        <NavDropdown.Item>User Management</NavDropdown.Item>
+                      </LinkContainer>
+                    </>
                   )}
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logoutHandler} className="logout-item">
+                    Sign Out
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-user"></i> Sign In
-                  </Nav.Link>
+                  <Nav.Link className="login-link">Sign In</Nav.Link>
                 </LinkContainer>
               )}
             </Nav>

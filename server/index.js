@@ -2,6 +2,13 @@ import express from "express";
 import userRoutes from "./routes/userRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
+import roomRoutes from "./routes/roomRoutes.js";
+import feeRoutes from "./routes/feeRoutes.js";
+import complaintRoutes from "./routes/complaintRoutes.js";
+import visitorRoutes from "./routes/visitorRoutes.js";
+import noticeRoutes from "./routes/noticeRoutes.js";
+import leaveRoutes from "./routes/leaveRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import path from "path";
 import morgan from "morgan";
 
@@ -20,6 +27,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/users", userRoutes);
 app.use("/student", studentRoutes);
 app.use("/attendance", attendanceRoutes);
+app.use("/rooms", roomRoutes);
+app.use("/fees", feeRoutes);
+app.use("/complaints", complaintRoutes);
+app.use("/visitors", visitorRoutes);
+app.use("/notices", noticeRoutes);
+app.use("/leaves", leaveRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
