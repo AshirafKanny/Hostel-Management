@@ -23,6 +23,18 @@ import {
   attendanceAnalysisReducer,
   deleteAttendanceReducer,
 } from "./reducers/attendanceReducer";
+import {
+  bookingListReducer,
+  bookingCreateReducer,
+} from "./reducers/bookingReducer";
+import {
+  paymentListReducer,
+  paymentCreateReducer,
+} from "./reducers/paymentReducer";
+import {
+  notificationListReducer,
+  notificationCreateReducer,
+} from "./reducers/notificationReducer";
 
 const reducer = combineReducers({
   studentsList: studentListReducer,
@@ -41,6 +53,12 @@ const reducer = combineReducers({
   attendanceDataEnter: attendanceDataEnterReducer,
   attendanceAnalysis: attendanceAnalysisReducer,
   attendanceDelete: deleteAttendanceReducer,
+  bookingList: bookingListReducer,
+  bookingCreate: bookingCreateReducer,
+  paymentList: paymentListReducer,
+  paymentCreate: paymentCreateReducer,
+  notificationList: notificationListReducer,
+  notificationCreate: notificationCreateReducer,
 });
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))

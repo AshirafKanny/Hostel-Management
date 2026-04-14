@@ -9,6 +9,10 @@ import visitorRoutes from "./routes/visitorRoutes.js";
 import noticeRoutes from "./routes/noticeRoutes.js";
 import leaveRoutes from "./routes/leaveRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
+import reportRoutes from "./routes/reportRoutes.js";
 import path from "path";
 import morgan from "morgan";
 
@@ -34,6 +38,10 @@ app.use("/api/visitors", visitorRoutes);
 app.use("/api/notices", noticeRoutes);
 app.use("/api/leaves", leaveRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/reports", reportRoutes);
 
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {

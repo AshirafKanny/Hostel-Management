@@ -31,7 +31,7 @@ const LoginView = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <h1>KIU Hostel Portal Sign In</h1>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
@@ -56,7 +56,7 @@ const LoginView = ({ location, history }) => {
         </Form.Group>
 
         <Button type='submit' variant='primary'>
-          Sign In
+          Sign In to KIU
         </Button>
       </Form>
 

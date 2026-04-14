@@ -1,6 +1,7 @@
 import Student from "../models/student.js";
 import Room from "../models/room.js";
 import Fee from "../models/fee.js";
+import Payment from "../models/payment.js";
 import Complaint from "../models/complaint.js";
 import Visitor from "../models/visitor.js";
 import LeaveRequest from "../models/leaveRequest.js";
@@ -36,6 +37,14 @@ const getDashboardStats = async (req, res) => {
     ]);
 
     const overdueFees = await Fee.countDocuments({ paymentStatus: "Overdue" });
+
+    // Payment statistics
+    const totalPaymentsCollected = await Payment.aggregate([
+      { $match: { status: "Completed" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+
+    const pendingPayments = await Payment.countDocuments({ status: "Pending" });
 
     // Complaint statistics
     const totalComplaints = await Complaint.countDocuments();
@@ -83,6 +92,10 @@ const getDashboardStats = async (req, res) => {
         collected: totalFeesCollected[0]?.total || 0,
         pending: pendingFees[0]?.total || 0,
         overdue: overdueFees,
+      },
+      payments: {
+        collected: totalPaymentsCollected[0]?.total || 0,
+        pending: pendingPayments,
       },
       complaints: {
         total: totalComplaints,

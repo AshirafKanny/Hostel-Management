@@ -3,6 +3,7 @@ import {
   STUDENT_LIST_SUCCESS,
   STUDENT_LIST_ERROR,
   STUDENT_ADD_ERROR,
+  STUDENT_ADD_RESET,
   STUDENT_ADD_REQUEST,
   STUDENT_ADD_SUCCESS,
   STUDENT_UPDATE_ERROR,
@@ -49,6 +50,8 @@ export const studentAddReducer = (state = { students: {} }, action) => {
       return { loading: false, success: true };
     case STUDENT_ADD_ERROR:
       return { loading: false, error: action.payload };
+    case STUDENT_ADD_RESET:
+      return { students: {} };
 
     default:
       return state;

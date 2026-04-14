@@ -44,6 +44,7 @@ const createRoom = async (req, res) => {
       status,
       acAvailable,
       attachedBathroom,
+      image,
     } = req.body;
 
     const roomExists = await Room.findOne({ roomNo });
@@ -64,6 +65,7 @@ const createRoom = async (req, res) => {
       status,
       acAvailable,
       attachedBathroom,
+      image,
     });
 
     res.status(201).json(room);
@@ -91,6 +93,7 @@ const updateRoom = async (req, res) => {
       room.status = req.body.status || room.status;
       room.acAvailable = req.body.acAvailable !== undefined ? req.body.acAvailable : room.acAvailable;
       room.attachedBathroom = req.body.attachedBathroom !== undefined ? req.body.attachedBathroom : room.attachedBathroom;
+      room.image = req.body.image || room.image;
 
       const updatedRoom = await room.save();
       res.json(updatedRoom);

@@ -45,6 +45,11 @@ const FeeManagementView = () => {
       <div className="page-header">
         <h1>Fee Management</h1>
         <div className="filter-buttons">
+          {userInfo?.isAdmin && (
+            <button className="btn btn-primary" onClick={() => history.push("/fees/add")}>
+              + Add Fee
+            </button>
+          )}
           <button className={`btn ${filter === "all" ? "btn-primary" : "btn-secondary"}`} onClick={() => setFilter("all")}>
             All Fees
           </button>
@@ -73,7 +78,7 @@ const FeeManagementView = () => {
               <td>{fee.studentName}</td>
               <td>{fee.roomNo}</td>
               <td>{fee.feeType}</td>
-              <td>₹{fee.amount}</td>
+              <td>UGX {fee.amount}</td>
               <td>{fee.month} {fee.year}</td>
               <td>
                 <span className={`badge ${fee.paymentStatus === "Paid" ? "badge-success" : fee.paymentStatus === "Overdue" ? "badge-danger" : "badge-warning"}`}>

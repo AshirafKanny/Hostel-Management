@@ -23,13 +23,15 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="brand-logo">
-              <span className="brand-text">Hostel Management</span>
+              <span className="brand-text">KIU Hostel Management</span>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {userInfo && (
-              <Route render={({ history }) => <SearchBox history={history} />} />
+              <div className="nav-search">
+                <Route render={({ history }) => <SearchBox history={history} />} />
+              </div>
             )}
             <Nav className="ms-auto align-items-center">
               {userInfo && userInfo.isAdmin && (
@@ -58,6 +60,12 @@ const Header = () => {
                     <LinkContainer to="/rooms">
                       <NavDropdown.Item>Rooms</NavDropdown.Item>
                     </LinkContainer>
+                    <LinkContainer to="/bookings">
+                      <NavDropdown.Item>Bookings</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/payments">
+                      <NavDropdown.Item>Payments</NavDropdown.Item>
+                    </LinkContainer>
                     <LinkContainer to="/fees">
                       <NavDropdown.Item>Fees</NavDropdown.Item>
                     </LinkContainer>
@@ -66,6 +74,12 @@ const Header = () => {
                     </LinkContainer>
                     <LinkContainer to="/notices">
                       <NavDropdown.Item>Notices</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/notifications">
+                      <NavDropdown.Item>Notifications</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/reports">
+                      <NavDropdown.Item>Reports</NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
                 </>

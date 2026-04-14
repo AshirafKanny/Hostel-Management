@@ -27,7 +27,7 @@ const DashboardView = () => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.get("/dashboard/stats", config);
+      const { data } = await axios.get("/api/dashboard/stats", config);
       setStats(data);
       setLoading(false);
     } catch (error) {
@@ -44,7 +44,7 @@ const DashboardView = () => {
     <div className="modern-dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Overview of hostel operations</p>
+        <p>Overview of KIU hostel operations</p>
       </div>
 
       <div className="stats-grid">
@@ -115,13 +115,13 @@ const DashboardView = () => {
             </div>
           </div>
           <div className="stat-details">
-            <div className="stat-title">Fees Collected</div>
+            <div className="stat-title">Payments Collected</div>
             <div className="stat-value">
-              ₹{stats?.fees?.collected?.toLocaleString() || 0}
+              UGX {stats?.payments?.collected?.toLocaleString() || 0}
             </div>
             <div className="stat-breakdown">
               <span className="stat-badge warning">
-                Pending: ₹{stats?.fees?.pending?.toLocaleString() || 0}
+                Pending: {stats?.payments?.pending || 0}
               </span>
               <span className="stat-badge danger">
                 Overdue: {stats?.fees?.overdue || 0}

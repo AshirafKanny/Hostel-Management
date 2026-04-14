@@ -180,6 +180,34 @@
   gap: 1rem;
 }
 
+@media (max-width: 1366px) {
+  .modern-dashboard {
+    max-width: 1200px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .action-buttons {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .action-btn {
+    padding: 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
 .action-btn {
   padding: 1rem;
   border: 1px solid #dadce0;

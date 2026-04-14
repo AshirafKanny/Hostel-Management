@@ -64,7 +64,7 @@ const HomeView = ({ match, history }) => {
         </Container>
       </>
 
-      <h1>Students</h1>
+      <h1>KIU Students</h1>
       {loading ? (
         <Loading />
       ) : error ? (
