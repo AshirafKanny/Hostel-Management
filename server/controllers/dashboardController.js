@@ -44,7 +44,13 @@ const getDashboardStats = async (req, res) => {
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
 
-    const pendingPayments = await Payment.countDocuments({ status: "Pending" });
+    const pendingPayments = await Payment.aggregate([
+      { $match: { status: "Pending" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+
+    const pendingPaymentsCount = await Payment.countDocuments({ status: "Pending" });
+    const failedPaymentsCount = await Payment.countDocuments({ status: "Failed" });
 
     // Complaint statistics
     const totalComplaints = await Complaint.countDocuments();
@@ -95,7 +101,9 @@ const getDashboardStats = async (req, res) => {
       },
       payments: {
         collected: totalPaymentsCollected[0]?.total || 0,
-        pending: pendingPayments,
+        pendingAmount: pendingPayments[0]?.total || 0,
+        pendingCount: pendingPaymentsCount,
+        failedCount: failedPaymentsCount,
       },
       complaints: {
         total: totalComplaints,

@@ -1,6 +1,22 @@
 import asyncHandler from "express-async-handler";
 import Student from "../models/student.js";
 import Attendance from "../models/attendance.js";
+import Room from "../models/room.js";
+
+const updateRoomOccupancyByRoomNo = async (roomNo, delta) => {
+  if (!roomNo) return;
+  const room = await Room.findOne({ roomNo });
+  if (!room) return;
+  room.currentOccupancy = Math.max(0, room.currentOccupancy + delta);
+  if (room.currentOccupancy === 0) {
+    room.status = "Available";
+  } else if (room.currentOccupancy >= room.capacity) {
+    room.status = "Full";
+  } else {
+    room.status = "Occupied";
+  }
+  await room.save();
+};
 
 const addStudent = asyncHandler(async (req, res) => {
   const {
@@ -37,6 +53,7 @@ const addStudent = asyncHandler(async (req, res) => {
   });
 
   if (student) {
+    await updateRoomOccupancyByRoomNo(student.roomNo, 1);
     res.status(201).json({
       _id: student._id,
       name: student.name,
@@ -59,6 +76,7 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
   const student = await Student.findById(req.body._id);
 
   if (student) {
+    const previousRoomNo = student.roomNo;
     student.name = req.body.name || student.name;
     student.address = req.body.address || student.address;
     student.category = req.body.category || student.category;
@@ -70,6 +88,11 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
     student.blockNo = req.body.blockNo || student.blockNo;
     student.status = req.body.status || student.status;
     const updatedStudent = await student.save();
+
+    if (previousRoomNo !== updatedStudent.roomNo) {
+      await updateRoomOccupancyByRoomNo(previousRoomNo, -1);
+      await updateRoomOccupancyByRoomNo(updatedStudent.roomNo, 1);
+    }
 
     res.json({
       _id: updatedStudent._id,
@@ -118,7 +141,9 @@ const deleteStudent = asyncHandler(async (req, res) => {
   const student = await Student.findById(req.params.id);
 
   if (student) {
+    const previousRoomNo = student.roomNo;
     await student.remove();
+    await updateRoomOccupancyByRoomNo(previousRoomNo, -1);
     res.json({ message: "Student removed" });
   } else {
     res.status(404);

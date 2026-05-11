@@ -13,6 +13,7 @@ import {
   Container,
 } from "react-bootstrap";
 import StudentsTableView from "./studentTableView";
+import SearchBox from "../components/searchBox";
 
 const HomeView = ({ match, history }) => {
   const [isGrid, setIsGrid] = useState(true);
@@ -60,6 +61,11 @@ const HomeView = ({ match, history }) => {
               </ButtonGroup>
             </Col>
             <Col xs lg="2"></Col>
+          </Row>
+          <Row className="justify-content-md-center mt-3">
+            <Col md={8} lg={6}>
+              <SearchBox history={history} context="page" />
+            </Col>
           </Row>
         </Container>
       </>

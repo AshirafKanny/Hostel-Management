@@ -7,6 +7,10 @@ const paymentSchema = mongoose.Schema(
       required: true,
       ref: "Booking",
     },
+    fee: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Fee",
+    },
     student: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

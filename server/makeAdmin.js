@@ -10,7 +10,7 @@ const makeAdmin = async () => {
     console.log("MongoDB Connected");
 
     // Update user to admin
-    const email = "ashirafkanny04@gmail.Com"; // Your email
+    const email = "ashirafkanny04@gmail.com"; // Target user email
     const result = await User.updateOne(
       { email: email },
       { $set: { isAdmin: true } }

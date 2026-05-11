@@ -13,6 +13,8 @@ const RegisterView = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [isAdminSignup, setIsAdminSignup] = useState(false);
+  const [adminCode, setAdminCode] = useState("");
 
   const dispatch = useDispatch();
 
@@ -31,8 +33,10 @@ const RegisterView = ({ location, history }) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
+    } else if (isAdminSignup && !adminCode.trim()) {
+      setMessage("Admin code is required for admin signup");
     } else {
-      dispatch(register(name, email, password));
+      dispatch(register(name, email, password, isAdminSignup ? adminCode : ""));
     }
   };
 
@@ -83,7 +87,33 @@ const RegisterView = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type="submit" variant="primary">
+        <Form.Group controlId="adminSignup" className="mt-3">
+          <Form.Check
+            type="checkbox"
+            label="Register as admin"
+            checked={isAdminSignup}
+            onChange={(e) => {
+              setIsAdminSignup(e.target.checked);
+              if (!e.target.checked) {
+                setAdminCode("");
+              }
+            }}
+          />
+        </Form.Group>
+
+        {isAdminSignup && (
+          <Form.Group controlId="adminCode" className="mt-2">
+            <Form.Label>Admin signup code</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter admin code"
+              value={adminCode}
+              onChange={(e) => setAdminCode(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+        )}
+
+        <Button type="submit" variant="primary" className="mt-3">
           Register for KIU Hostel
         </Button>
       </Form>

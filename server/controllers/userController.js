@@ -22,7 +22,7 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, adminCode } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -31,10 +31,24 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  let isAdmin = false;
+  if (adminCode) {
+    if (!process.env.ADMIN_SIGNUP_CODE) {
+      res.status(500);
+      throw new Error("Admin signup not configured");
+    }
+    if (adminCode !== process.env.ADMIN_SIGNUP_CODE) {
+      res.status(401);
+      throw new Error("Invalid admin signup code");
+    }
+    isAdmin = true;
+  }
+
   const user = await User.create({
     name,
     email,
     password,
+    isAdmin,
   });
 
   if (user) {

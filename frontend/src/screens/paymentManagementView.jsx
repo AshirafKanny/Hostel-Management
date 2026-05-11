@@ -20,7 +20,9 @@ const PaymentManagementView = () => {
     amount: "",
     method: "MobileMoney",
     transactionId: "",
+    status: "Completed",
   });
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     if (!userInfo) {
@@ -56,17 +58,39 @@ const PaymentManagementView = () => {
         },
       };
       await axios.post("/api/payments", form, config);
-      setForm({ bookingId: "", amount: "", method: "MobileMoney", transactionId: "" });
+      setForm({ bookingId: "", amount: "", method: "MobileMoney", transactionId: "", status: "Completed" });
       dispatch(listPayments());
     } catch (err) {
       console.error(err);
     }
   };
 
+  const filteredPayments = payments.filter((payment) => {
+    if (filter === "all") return true;
+    return payment.status === filter;
+  });
+
   return (
     <div className="payment-management">
       <div className="page-header">
         <h1>Payment Management</h1>
+        <div className="filter-buttons">
+          {[
+            { label: "All", value: "all" },
+            { label: "Completed", value: "Completed" },
+            { label: "Pending", value: "Pending" },
+            { label: "Failed", value: "Failed" },
+            { label: "Refunded", value: "Refunded" },
+          ].map((item) => (
+            <button
+              key={item.value}
+              className={`btn ${filter === item.value ? "btn-primary" : "btn-secondary"}`}
+              onClick={() => setFilter(item.value)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="card" style={{ padding: "1.5rem", marginBottom: "1.5rem" }}>
@@ -119,6 +143,19 @@ const PaymentManagementView = () => {
                 onChange={(e) => setForm({ ...form, transactionId: e.target.value })}
               />
             </div>
+            <div className="col-md-3" style={{ marginBottom: "1rem" }}>
+              <label className="form-label">Status</label>
+              <select
+                className="form-control"
+                value={form.status}
+                onChange={(e) => setForm({ ...form, status: e.target.value })}
+              >
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+                <option value="Failed">Failed</option>
+                <option value="Refunded">Refunded</option>
+              </select>
+            </div>
           </div>
           <button type="submit" className="btn btn-primary">Record Payment</button>
         </form>
@@ -143,13 +180,19 @@ const PaymentManagementView = () => {
               </tr>
             </thead>
             <tbody>
-              {payments.map((payment) => (
+              {filteredPayments.map((payment) => (
                 <tr key={payment._id}>
                   <td>{payment.booking?.bookingCode}</td>
                   <td>{payment.student?.name}</td>
                   <td>UGX {payment.amount}</td>
                   <td>{payment.method}</td>
-                  <td>{payment.status}</td>
+                  <td>
+                    <span
+                      className={`badge ${payment.status === "Completed" ? "badge-success" : payment.status === "Failed" ? "badge-danger" : "badge-warning"}`}
+                    >
+                      {payment.status}
+                    </span>
+                  </td>
                   <td>{payment.paidAt ? new Date(payment.paidAt).toLocaleString() : "-"}</td>
                 </tr>
               ))}

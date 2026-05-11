@@ -120,12 +120,18 @@ const DashboardView = () => {
               UGX {stats?.payments?.collected?.toLocaleString() || 0}
             </div>
             <div className="stat-breakdown">
-              <span className="stat-badge warning">
-                Pending: {stats?.payments?.pending || 0}
-              </span>
-              <span className="stat-badge danger">
-                Overdue: {stats?.fees?.overdue || 0}
-              </span>
+                <span className="stat-badge warning">
+                  Pending: UGX {stats?.payments?.pendingAmount?.toLocaleString() || 0}
+                </span>
+                <span className="stat-badge info">
+                  Pending Count: {stats?.payments?.pendingCount || 0}
+                </span>
+                <span className="stat-badge danger">
+                  Overdue: {stats?.fees?.overdue || 0}
+                </span>
+                <span className="stat-badge danger">
+                  Failed: {stats?.payments?.failedCount || 0}
+                </span>
             </div>
           </div>
         </div>

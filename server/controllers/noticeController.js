@@ -1,5 +1,18 @@
 import Notice from "../models/notice.js";
 
+const normalizeValidTill = (validTill) => {
+  if (!validTill) {
+    return validTill;
+  }
+
+  const endOfDay = new Date(`${validTill}T23:59:59.999`);
+  if (Number.isNaN(endOfDay.getTime())) {
+    return validTill;
+  }
+
+  return endOfDay;
+};
+
 // @desc    Get all active notices
 // @route   GET /api/notices
 // @access  Public
@@ -64,7 +77,7 @@ const createNotice = async (req, res) => {
       postedBy: req.user._id,
       postedByName: req.user.name,
       priority,
-      validTill,
+      validTill: normalizeValidTill(validTill),
       attachments,
     });
 
@@ -86,7 +99,9 @@ const updateNotice = async (req, res) => {
       notice.content = req.body.content || notice.content;
       notice.category = req.body.category || notice.category;
       notice.priority = req.body.priority || notice.priority;
-      notice.validTill = req.body.validTill || notice.validTill;
+      if (req.body.validTill) {
+        notice.validTill = normalizeValidTill(req.body.validTill);
+      }
       notice.attachments = req.body.attachments || notice.attachments;
       notice.isActive =
         req.body.isActive !== undefined ? req.body.isActive : notice.isActive;

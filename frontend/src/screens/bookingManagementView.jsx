@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { listBookings } from "../actions/bookingActions";
 import axios from "axios";
+import Message from "../components/message";
+import Loader from "../components/loader";
 import "../css/management.css";
 
 const BookingManagementView = () => {
@@ -23,6 +25,9 @@ const BookingManagementView = () => {
     checkOutDate: "",
     totalAmount: "",
   });
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!userInfo) {
@@ -60,10 +65,14 @@ const BookingManagementView = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess("");
     if (!form.studentId || !form.roomId || !form.checkInDate || !form.checkOutDate || !form.totalAmount) {
+      setSubmitError("Please fill all required fields.");
       return;
     }
     try {
+      setSubmitting(true);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -72,9 +81,12 @@ const BookingManagementView = () => {
       };
       await axios.post("/api/bookings", form, config);
       setForm({ studentId: "", roomId: "", checkInDate: "", checkOutDate: "", totalAmount: "" });
+      setSubmitSuccess("Booking created successfully.");
       dispatch(listBookings());
     } catch (err) {
-      console.error(err);
+      setSubmitError(err?.response?.data?.message || "Unable to create booking.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -86,6 +98,9 @@ const BookingManagementView = () => {
 
       <div className="card" style={{ padding: "1.5rem", marginBottom: "1.5rem" }}>
         <h3 style={{ marginBottom: "1rem" }}>Create Booking</h3>
+        {submitError && <Message variant="danger">{submitError}</Message>}
+        {submitSuccess && <Message variant="success">{submitSuccess}</Message>}
+        {submitting && <Loader />}
         <form onSubmit={submitHandler}>
           <div className="row">
             <div className="col-md-4" style={{ marginBottom: "1rem" }}>
@@ -119,7 +134,7 @@ const BookingManagementView = () => {
               </select>
             </div>
             <div className="col-md-4" style={{ marginBottom: "1rem" }}>
-              <label className="form-label">Total Amount</label>
+              <label className="form-label">Total Amount (UGX)</label>
               <input
                 type="number"
                 className="form-control"
@@ -148,7 +163,7 @@ const BookingManagementView = () => {
               />
             </div>
             <div className="col-md-4" style={{ display: "flex", alignItems: "flex-end" }}>
-              <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
+              <button type="submit" className="btn btn-primary" style={{ width: "100%" }} disabled={submitting}>
                 Create Booking
               </button>
             </div>

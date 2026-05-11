@@ -29,6 +29,18 @@ const assertRoomAvailable = (room, requestedOccupancy = 1) => {
   }
 };
 
+const syncRoomStatus = async (room, actualOccupancy) => {
+  room.currentOccupancy = actualOccupancy;
+  if (room.currentOccupancy === 0) {
+    room.status = "Available";
+  } else if (room.currentOccupancy >= room.capacity) {
+    room.status = "Full";
+  } else {
+    room.status = "Occupied";
+  }
+  await room.save();
+};
+
 const updateRoomOccupancy = async (roomId, delta) => {
   const room = await Room.findById(roomId);
   if (!room) return;
@@ -56,7 +68,13 @@ const createBooking = asyncHandler(async (req, res) => {
   }
 
   const room = await Room.findById(roomId);
-  assertRoomAvailable(room, 1);
+  const actualOccupancy = await Student.countDocuments({ roomNo: room?.roomNo });
+  if (room && room.currentOccupancy !== actualOccupancy) {
+    await syncRoomStatus(room, actualOccupancy);
+  }
+
+  const requestedOccupancy = student.roomNo === room?.roomNo ? 0 : 1;
+  assertRoomAvailable(room, requestedOccupancy);
 
   const booking = await Booking.create({
     student: student._id,
@@ -69,7 +87,12 @@ const createBooking = asyncHandler(async (req, res) => {
     notes,
   });
 
-  await updateRoomOccupancy(room._id, 1);
+  if (requestedOccupancy === 1) {
+    await updateRoomOccupancy(room._id, 1);
+    student.roomNo = room.roomNo;
+    student.blockNo = room.blockNo;
+    await student.save();
+  }
 
   res.status(201).json(booking);
 });
