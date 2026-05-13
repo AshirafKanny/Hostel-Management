@@ -15,12 +15,19 @@
    Have MongoDB running somewhere. If it’s not up, the API will ghost you harder than a bad roommate.
 
 3. **Whisper secrets** (repo root, `.env`)  
+   Start from the example file and tweak it:
+   ```bash
+   copy .env.example .env
+   ```
    ```env
    NODE_ENV=development
    PORT=5000
-   MONGO_URI=mongodb://127.0.0.1:27017/your_db_name
+   MONGO_URI=mongodb://127.0.0.1:27017/hostel_db
    JWT_SECRET=make_it_long_and_random_no_password123_pls
+   ADMIN_SIGNUP_CODE=123@admin
    ```
+   - **Using MongoDB Atlas?** Make sure your current IP is in the Atlas Network Access list, or Atlas will refuse the connection.
+   - **Changed `JWT_SECRET`?** Clear browser `localStorage` and log in again to get a fresh token.
 
 4. **Hit go** 🎬  
    ```bash
